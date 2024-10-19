@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // });
 Route::get('/all-categories', [CategoryController::class, 'allCategories']);
 Route::apiResource('categories', CategoryController::class);
+
+Route::get('/all-brands', [BrandController::class, 'allBrands']);
+Route::apiResource('brands', BrandController::class);
