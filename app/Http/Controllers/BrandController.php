@@ -42,7 +42,6 @@ class BrandController extends Controller
     }
     public function allBrands()
     {
-        dd('osdgsdgsdg');
         $brands = $this->brandRepository->all();
         if (!$brands) {
             return $this->ResponseError([], null, 'No Data Found', 200, 'error');

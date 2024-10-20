@@ -12,7 +12,7 @@ const baseClient = axios.create({
 })
 
 const inventoryAxiosClient = axios.create({
-    baseURL: config.InventoryApiHost+'/api',
+    baseURL: config.InventoryApiHost.replace(/\/$/, "") + "/api", 
     headers : {
         "Accept": 'application/json',
         "Content-Type": 'application/json',

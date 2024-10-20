@@ -15,7 +15,7 @@ class BrandResource extends JsonResource
             'brand_code' => $this->code,
             'brand_file' => $this->file,
             'is_active' => $this->is_active ? 'active' : 'inactive',
-            'created_at' => $this->created_at->format('d/M/Y H: i A'),
+            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d') : null,
         ];
     }
 }

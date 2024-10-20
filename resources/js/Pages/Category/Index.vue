@@ -35,7 +35,7 @@ onMounted(() =>{
         <div class="card">
           <div class="card-body">
             <div class="row">
-              <div class="col-8">Total Count : 200</div>
+              <div class="col-8"> <strong>Total Count</strong> : <em>{{categoryStore.getTotalCount}}</em></div>
               <div class="col-4">
                 <input
                   type="search"
@@ -66,14 +66,18 @@ onMounted(() =>{
             </thead>
 
             <tbody>
-              <tr>
-                <td>1</td>
-
-                <td>Item Name</td>
-                <td>12345</td>
-                <td>Image.jpg</td>
-                <td>Active</td>
-                <td>Edit/Delete</td>
+              <tr v-for="(category,index) in categoryStore.categories" :key="category.id">
+                <td>{{ index+1 }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.name }}</td>
+                <td>
+                    <div>
+                        <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </td>
               </tr>
             </tbody>
           </table>
