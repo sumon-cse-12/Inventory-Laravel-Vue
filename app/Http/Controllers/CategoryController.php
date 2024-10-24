@@ -62,7 +62,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id){
         try {
             $data = $this->categoryRepository->update($request,$id);
-            return $this->ResponseSequence(new CategoryResource($data), null, 'Data Updated Successfully!', 201);
+            return $this->ResponseSuccess(new CategoryResource($data), null, 'Data Updated Successfully!', 201);
         } catch (\Exception $ex) {
             return $this->ResponseError($ex->getMessage());
         }
@@ -71,7 +71,7 @@ class CategoryController extends Controller
     public function destroy($id){
         try {
             $data = $this->categoryRepository->delete($id);
-            return $this->ResponseSequence($data, null, 'Data Deleted Successfully!', 204);
+            return $this->ResponseSuccess($data, null, 'Data Deleted Successfully!', 204);
         } catch (\Exception $ex) {
             return $this->ResponseError($ex->getMessage());
         }
@@ -80,7 +80,7 @@ class CategoryController extends Controller
     public function status($id){
         try {
             $data = $this->categoryRepository->status($id);
-            return $this->ResponseSequence($data, null, 'Data Deleted Successfully!', 204);
+            return $this->ResponseSuccess($data, null, 'Status Updated Successfully!', 204);
         } catch (\Exception $ex) {
             return $this->ResponseError($ex->getMessage());
         }

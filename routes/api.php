@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     Route::delete('{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 // });
 Route::get('/all-categories', [CategoryController::class, 'allCategories']);
+Route::get('/categories/status/{id}', [CategoryController::class, 'status']);
 Route::apiResource('categories', CategoryController::class);
 
 Route::get('/all-brands', [BrandController::class, 'allBrands']);

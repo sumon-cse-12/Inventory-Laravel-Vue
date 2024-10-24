@@ -8,11 +8,26 @@ const router = useRouter();
 const swal = inject("$swal");
 categoryStore.swal = swal;
 categoryStore.router = router;
-const searchKeyWord = ref('');
+const searchKeyWord = ref("");
+const DeleteCategory = (id, name) => {
+    swal({
+        title: `Do you want to delete this data: ${name} ${id}`,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if(result.isConfirmed){
+            categoryStore.deleteCategory(id, (status) => {
+                if(status == 'success'){
+                    categoryStore.getCategories(categoryStore.pagination.current_page, categoryStore.dataLimit)
+                }
+            })
+        }
+    })
+}
 
-onMounted(() =>{
+onMounted(() => {
   categoryStore.getCategories();
-})
+});
 </script>
 <template>
   <div class="container-fluid p-4">
@@ -35,7 +50,10 @@ onMounted(() =>{
         <div class="card">
           <div class="card-body">
             <div class="row">
-              <div class="col-8"> <strong>Total Count</strong> : <em>{{categoryStore.getTotalCount}}</em></div>
+              <div class="col-8">
+                <strong>Total Count</strong> :
+                <em>{{ categoryStore.getTotalCount }}</em>
+              </div>
               <div class="col-4">
                 <input
                   type="search"
@@ -66,17 +84,40 @@ onMounted(() =>{
             </thead>
 
             <tbody>
-              <tr v-for="(category,index) in categoryStore.categories" :key="category.id">
-                <td>{{ index+1 }}</td>
+              <tr
+                v-for="(category, index) in categoryStore.categories"
+                :key="category.id"
+              >
+                <td>{{ index + 1 }}</td>
                 <td>{{ category.name }}</td>
-                <td>{{ category.name }}</td>
-                <td>{{ category.name }}</td>
-                <td>{{ category.name }}</td>
+                <td>{{ category.code }}</td>
+                <td>{{ category.image }}</td>
                 <td>
-                    <div>
-                        <a href="#" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                    </div>
+
+                  <div class="custom-control custom-switch">
+<input type="checkbox" class="custom-control-input" id="customSwitch1" @change.prevent="categoryStore.changeStatus(category.id)">
+<label class="custom-control-label" for="customSwitch1"></label>
+</div>
+                  <!-- <div
+                    class="form-check form-switch d-flex justify-content-center"
+                  >
+                    <input
+                      type="checkbox"
+                      class="form-check-input fs-5"
+                      role="switch"
+                      id="changeStatus"
+                      :checked="category.is_active"
+                      @change.prevent="categoryStore.changeStatus(category.id)"
+                    />
+                  </div> -->
+                </td>
+                <td>
+                  <div>
+                    <!-- <router-link :to="{name: 'category-edit', params:{id:category.id}}" class="btn btn-primary btn-lg">Edit</router-link> -->
+                    <router-link :to="{name: 'category-edit', params: {id: category.id }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></router-link>
+                    <!-- <router-link :to="{name: 'category-edit', params:{id:category.id}}" class="btn btn-primary btn-sm">Edit</router-link> -->
+                    <a @click.prevent="DeleteCategory(category.id, category.name)" class="btn btn-danger btn-sm ms-2"><i class="fas fa-trash"></i></a>
+                  </div>
                 </td>
               </tr>
             </tbody>
