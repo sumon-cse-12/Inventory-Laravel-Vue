@@ -40,10 +40,10 @@
                 </router-link>
             </li>
             <li class="nav-item">
-                <router-link to="/admin/p" active-class="active" class="nav-link">
+                <router-link :to="{name:'brand-index'}" active-class="active" class="nav-link">
                     <i class="nav-icon fa fa-list"></i>
                     <p>
-                     Product
+                     Brands
                     </p>
                 </router-link>
             </li>

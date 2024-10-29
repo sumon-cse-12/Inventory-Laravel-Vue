@@ -43,12 +43,6 @@ watch(
 },1000)
 )
 
-// watch(
-//     searchKeyword,
-//     _.debounce((current, previous) => {
-//         categoryStore.getCategories(categoryStore.pagination.current_page, categoryStore.dataLimit, current);
-//     }, 500)
-// )
 </script>
 <template>
   <div class="container-fluid p-4">
