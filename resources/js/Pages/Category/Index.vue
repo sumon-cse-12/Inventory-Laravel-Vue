@@ -1,33 +1,54 @@
 <script setup>
-import { ref, reactive, inject, onMounted } from "vue";
+import { ref, reactive, inject, onMounted, watch } from "vue";
 import { useCategoryStore } from "../../store/category";
 import { useRouter } from "vue-router";
+import _ from 'lodash';
 
 const categoryStore = useCategoryStore();
 const router = useRouter();
 const swal = inject("$swal");
 categoryStore.swal = swal;
 categoryStore.router = router;
-const searchKeyWord = ref("");
+const searchKeyword = ref("");
+
 const DeleteCategory = (id, name) => {
-    swal({
-        title: `Do you want to delete this data: ${name} ${id}`,
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if(result.isConfirmed){
-            categoryStore.deleteCategory(id, (status) => {
-                if(status == 'success'){
-                    categoryStore.getCategories(categoryStore.pagination.current_page, categoryStore.dataLimit)
-                }
-            })
+  swal({
+    title: `Do you want to delete this data: ${name} ${id}`,
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      categoryStore.deleteCategory(id, (status) => {
+        if (status == "success") {
+          categoryStore.getCategories(
+            categoryStore.pagination.current_page,
+            categoryStore.dataLimit
+          );
         }
-    })
-}
+      });
+    }
+  });
+};
 
 onMounted(() => {
-  categoryStore.getCategories();
+  categoryStore.getCategories(
+    categoryStore.pagination.current_page,
+    categoryStore.dataLimit
+  );
 });
+
+watch(
+    searchKeyword, _.debounce((current, previous) => {
+  categoryStore.getCategories(categoryStore.pagination.current_page, categoryStore.dataLimit, current)
+},1000)
+)
+
+// watch(
+//     searchKeyword,
+//     _.debounce((current, previous) => {
+//         categoryStore.getCategories(categoryStore.pagination.current_page, categoryStore.dataLimit, current);
+//     }, 500)
+// )
 </script>
 <template>
   <div class="container-fluid p-4">
@@ -88,16 +109,35 @@ onMounted(() => {
                 v-for="(category, index) in categoryStore.categories"
                 :key="category.id"
               >
-                <td>{{ index + 1 }}</td>
+                <td>
+                  {{
+                    categoryStore.pagination.current_page *
+                      categoryStore.dataLimit -
+                    categoryStore.dataLimit +
+                    index +
+                    1
+                  }}
+                </td>
                 <td>{{ category.name }}</td>
                 <td>{{ category.code }}</td>
-                <td>{{ category.image }}</td>
                 <td>
-
+                    <div class="category-img-link">
+                        <img :src="category.file" alt="" class="img-fluid category-img">
+                    </div>
+                </td>
+                <td>
                   <div class="custom-control custom-switch">
-<input type="checkbox" class="custom-control-input" id="customSwitch1" @change.prevent="categoryStore.changeStatus(category.id)">
-<label class="custom-control-label" for="customSwitch1"></label>
-</div>
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customSwitch1"
+                      @change.prevent="categoryStore.changeStatus(category.id)"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="customSwitch1"
+                    ></label>
+                  </div>
                   <!-- <div
                     class="form-check form-switch d-flex justify-content-center"
                   >
@@ -114,16 +154,50 @@ onMounted(() => {
                 <td>
                   <div>
                     <!-- <router-link :to="{name: 'category-edit', params:{id:category.id}}" class="btn btn-primary btn-lg">Edit</router-link> -->
-                    <router-link :to="{name: 'category-edit', params: {id: category.id }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></router-link>
+                    <router-link
+                      :to="{
+                        name: 'category-edit',
+                        params: { id: category.id },
+                      }"
+                      class="btn btn-info btn-sm"
+                      ><i class="fas fa-edit"></i
+                    ></router-link>
                     <!-- <router-link :to="{name: 'category-edit', params:{id:category.id}}" class="btn btn-primary btn-sm">Edit</router-link> -->
-                    <a @click.prevent="DeleteCategory(category.id, category.name)" class="btn btn-danger btn-sm ms-2"><i class="fas fa-trash"></i></a>
+                    <a
+                      @click.prevent="
+                        DeleteCategory(category.id, category.name)
+                      "
+                      class="btn btn-danger btn-sm ms-2"
+                      ><i class="fas fa-trash"></i
+                    ></a>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+        <div class="d-flex justify-content-end">
+          <v-pagination
+            v-model="categoryStore.pagination.current_page"
+            :pages="categoryStore.pagination.last_page"
+            :range="1"
+            active-color="#fff"
+            @update:modelValue="
+              categoryStore.getCategories(
+                categoryStore.pagination.current_page,
+                categoryStore.dataLimit
+              )
+            "
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.category-img{
+    width: 100px;
+    height: 100px;
+}
+</style>

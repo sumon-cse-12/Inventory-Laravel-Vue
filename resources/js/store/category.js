@@ -132,7 +132,7 @@ export const useCategoryStore = defineStore('category', {
                     }
                 };
                 const {data} = await inventoryAxiosClient.post(`/categories/${category_id}`, formData, config);
-                console.log(data);
+                console.log(data,'dataaaaaaaaaaaaaaaaaaaa');
                 this.swal({
                     icon: 'success',
                     title: 'Data Updated Successfully!'

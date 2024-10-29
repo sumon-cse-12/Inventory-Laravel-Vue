@@ -86,7 +86,7 @@ const onChange = (e) => {
                   <vee-field
                     type="file"
                     @change="onChange"
-                    name="code"
+                    name="file"
                     class="form-control"
                     accept="image/*"
                   />

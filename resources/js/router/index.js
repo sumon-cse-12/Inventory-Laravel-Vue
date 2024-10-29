@@ -17,7 +17,7 @@ const router = createRouter({
 
         { path: '/admin/category', name:'category-index', component: () => import('../Pages/Category/Index.vue') },
         { path: '/admin/category/create', name:'category-create', component: () => import('../Pages/Category/Create.vue') },
-        { path: '/admin/category/edit', name:'category-edit', component: () => import('../Pages/Category/Create.vue') },
+        { path: '/admin/category/edit/:id', name:'category-edit', component: () => import('../Pages/Category/Edit.vue') },
         // { path: '/category/edit/:id', name:'category-edit', component: () => import('@/Pages/Category/Edit.vue') },
 
       ]
