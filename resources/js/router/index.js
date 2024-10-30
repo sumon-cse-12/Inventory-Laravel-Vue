@@ -21,6 +21,7 @@ const router = createRouter({
 
         {path: '/admin/brand/index', name:'brand-index', component: () => import('../Pages/Brand/Index.vue')},
         {path: 'admin/brand/create', name:'brand-create', component: () => import('../Pages/Brand/Create.vue')},
+        {path: 'admin/brand/edit', name:'brand-edit', component: () => import('../Pages/Brand/Edit.vue')},
 
       ]
     },

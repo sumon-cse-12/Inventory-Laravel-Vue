@@ -11,7 +11,21 @@ const swal = inject('$swal');
 brandStore.swal = swal;
 brandStore.router = router;
 const searchKeyword = ref('');
-
+const delete_brand = (id,name) =>{
+    swal({
+        title: `Do you want to delete this data ${name} ?`,
+        showCancelButton: false,
+        confirmButtonText : 'Yes, Delete it'
+    }).then( (result) => {
+        if(result.isConfirmed) {
+            brandStore.deleteBrand(id, (status) => {
+                if(status == 'success'){
+                    brandStore.getBrands(1,5, '')
+                }
+            })
+        }
+    })
+}
 onMounted( () => {
     brandStore.getBrands(1,5,"");
 })
@@ -73,7 +87,12 @@ onMounted( () => {
                                     <td>Image</td>
                                     <td>Active</td>
                                     <td>
-                                        edit delete
+                                      <router-link :to="{name: 'brand-edit',params:{id: brand.id}}" class="btn btn-info btn-sm">
+                                        Edit
+                                      </router-link>
+                                      <a @click.prevent="delete_brand(brand.id,brand.name)" class="btn btn-info btn-sm">
+                                        Delete
+                                      </a>
                                     </td>
                                 </tr>
                              </tbody>

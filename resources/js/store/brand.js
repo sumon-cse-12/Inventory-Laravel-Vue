@@ -1,6 +1,7 @@
 import  {defineStore} from 'pinia'
 import { inventoryAxiosClient } from '../utils/system_axios';
 import config from '../utils/config';
+import { times } from 'lodash';
 
 export const useBrandStore  = defineStore('brand', {
     state: () => ({
@@ -88,7 +89,29 @@ export const useBrandStore  = defineStore('brand', {
         async updateBrand(){
 
         },
-        async deleteBrand(){
+        async deleteBrand(brand_id, callback){
+            this.is_loading = false;
+
+            try{
+                const {data} = await inventoryAxiosClient.delete(`/brands/${brand_id}`);
+                callback('success');
+                this.is_loading = false;
+                this.swal({
+                    title: 'Action Performed Successfully',
+                    icon: 'success',
+                    timer:1000,
+                })
+            }catch(error){
+                this.errors = error.response.data;
+                this.swal({
+                    icon: 'error',
+                    title: 'Action Failed',
+                    timer: 1000,
+                    text: this.errors.message
+                })
+                callback('error');
+                this.is_loading = false;
+            }
 
         },
         async changeStatusBrand(){
