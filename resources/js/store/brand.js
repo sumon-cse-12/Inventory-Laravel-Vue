@@ -18,6 +18,12 @@ export const useBrandStore  = defineStore('brand', {
             last_page: 0,
             totalCount: 0,
         },
+        editBrandData: {
+            name:null,
+            code:null,
+            file:null,
+            _method:'PUT',
+        }
 
     }),
     getters:{
@@ -80,14 +86,75 @@ export const useBrandStore  = defineStore('brand', {
                 })
             }
         },
-        async getBrand(){
+        async getBrand(brand_id){
+            this.is_loading =false;
+            try{
+                const {data} = await inventoryAxiosClient.get(`/brands/${brand_id}`);
+                console.log(data);
+                this.brand = data.data;
+                this.editBrandData.name = this.brand.brand_name;
+                this.editBrandData.code = this.brand.brand_code;
+            } catch(error){
+                this.is_loading = false;
+                this.errors = error.response.data;
+                this.swal({
+                    icon: "error",
+                    title: "Something Went Wrong",
+                    text: this.errors.message
+                })
+            }
 
         },
-        async storeBrand(){
+        async storeBrand(formData){
+            this.is_loading = false;
+            try{
+                const config = {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+                const {data} = await inventoryAxiosClient.post('/brands', formData, config);
+                this.swal({
+                    icon:'success',
+                    title:'Brand Successfully Created'
+                });
+                this.is_loading = false;
+                this.router.push({name:'brand-index'})
+            }catch(error){
+                this.is_loading = false;
+                this.errors = error.response.data;
+                this.swal({
+                    icon:'error',
+                    title:'Something Error',
+                    text: this.errors.message
+                })
+            }
 
         },
-        async updateBrand(){
-
+        async updateBrand(editBrandData,brand_id){
+            this.is_loading = false;
+            try{
+                const config = {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+                const {data} = await inventoryAxiosClient.post(`/brands/${brand_id}`, editBrandData, config);
+                this.swal({
+                    icon:'success',
+                    title:'Brand Successfully Updated'
+                });
+                this.is_loading = false;
+                this.router.push({name:'brand-index'})
+            }catch(error){
+                this.is_loading = false;
+                this.errors = error.response.data;
+                this.swal({
+                    icon:'error',
+                    title:'Something Error',
+                    text: this.errors.message
+                })
+            }
         },
         async deleteBrand(brand_id, callback){
             this.is_loading = false;

@@ -22,7 +22,7 @@ const onChange = (e) => {
     formData.file = e.target.files[0];
 }
 const saveBrand = () => {
-
+    brandStore.storeBrand(formData);
 }
 </script>
 <template>
