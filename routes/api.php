@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SupplierController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,3 +39,7 @@ Route::apiResource('categories', CategoryController::class);
 Route::get('/all-brands', [BrandController::class, 'allBrands']);
 Route::apiResource('brands', BrandController::class);
 Route::apiResource('customer', CustomerController::class);
+
+
+Route::get('/all-brands', [SupplierController::class, 'allBrands']);
+Route::apiResource('brands', SupplierController::class);
