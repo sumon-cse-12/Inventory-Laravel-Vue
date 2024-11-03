@@ -23,7 +23,7 @@ class CategoryController extends Controller
 
         try {
             $data = $this->categoryRepository->store($request);
-            return $this->ResponseSequence(new CategoryResource($data), null, 'Data Stored Successfully!', 201);
+            return $this->ResponseSuccess(new CategoryResource($data), null, 'Data Stored Successfully!', 201);
         } catch (\Exception $ex) {
             return $this->ResponseError($ex->getMessage());
         }
