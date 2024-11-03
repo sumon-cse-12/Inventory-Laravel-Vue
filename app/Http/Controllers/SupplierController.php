@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Trait\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SupplierRequest;
 use App\Http\Resources\SupplierResource;
+use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Repositories\Supplier\SupplierInterface;
 
@@ -51,7 +51,7 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SupplierRequest $request)
+    public function store(StoreSupplierRequest $request)
     {
         try {
             $data = $this->supplierRepository->store($request);
