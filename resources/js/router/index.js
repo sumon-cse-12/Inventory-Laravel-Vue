@@ -23,6 +23,10 @@ const router = createRouter({
         {path: 'admin/brand/create', name:'brand-create', component: () => import('../Pages/Brand/Create.vue')},
         {path: 'admin/brand/edit/:id', name:'brand-edit', component: () => import('../Pages/Brand/Edit.vue')},
 
+        {path: '/admin/supplier/index', name:'supplier-index', component: () => import('../Pages/Supplier/Index.vue')},
+        {path: 'admin/supplier/create', name:'supplier-create', component: () => import('../Pages/Supplier/Create.vue')},
+        {path: 'admin/supplier/edit/:id', name:'supplier-edit', component: () => import('../Pages/Supplier/Edit.vue')},
+
       ]
     },
     // {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Trait\ApiResponse;
 use Illuminate\Http\Request;
@@ -53,6 +53,7 @@ class SupplierController extends Controller
      */
     public function store(StoreSupplierRequest $request)
     {
+        dd('okk');
         try {
             $data = $this->supplierRepository->store($request);
             return $this->ResponseSuccess(new SupplierResource($data), null, 'Data Stored Successfully!', 201);

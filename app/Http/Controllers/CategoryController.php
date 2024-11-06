@@ -20,7 +20,7 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-
+dd('cate');
         try {
             $data = $this->categoryRepository->store($request);
             return $this->ResponseSuccess(new CategoryResource($data), null, 'Data Stored Successfully!', 201);

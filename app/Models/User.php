@@ -5,9 +5,9 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -48,4 +48,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeSupplier()
+    {
+        return $this->where(['role_id' => User::SUPPLIER]);
+    }
+    public function scopeCustomer()
+    {
+        return $this->where(['role_id' => User::CUSTOMER]);
+    }
+    public function scopeAdmin()
+    {
+        return $this->where(['role_id' => User::ADMIN]);
+    }
+    public function scopeStaff()
+    {
+        return $this->where(['role_id' => User::STAFF]);
+    }
 }

@@ -20,6 +20,7 @@ class BrandController extends Controller
 
     public function store(BrandRequest $request)
     {
+        dd('brands');
 
         try {
             $data = $this->brandRepository->store($request);
