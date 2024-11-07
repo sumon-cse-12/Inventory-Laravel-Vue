@@ -53,7 +53,6 @@ class SupplierController extends Controller
      */
     public function store(StoreSupplierRequest $request)
     {
-        dd('okk');
         try {
             $data = $this->supplierRepository->store($request);
             return $this->ResponseSuccess(new SupplierResource($data), null, 'Data Stored Successfully!', 201);

@@ -6,33 +6,33 @@ import { useRouter } from "vue-router";
 
 const supplierStore = useSupplierStore();
 const router = useRouter();
-const swal = inject('$swal');
+const swal = inject("$swal");
 supplierStore.swal = swal;
 supplierStore.router = router;
 const searchKeyword = ref("");
-const DeleteSupplier = (id,name) => {
-    swal({
-        title: `Do you want to delete this data: ${name} ${id}`,
+const DeleteSupplier = (id, name) => {
+  swal({
+    title: `Do you want to delete this data: ${name} ${id}`,
     showCancelButton: true,
     confirmButtonText: "Yes, delete it!",
-    }).then( (result) =>{
-        if (result.isConfirmed) {
+  }).then((result) => {
+    if (result.isConfirmed) {
       supplierStore.deleteSupplier(id, (status) => {
         if (status == "success") {
-            supplierStore.getSuppliers(
-                supplierStore.pagination.current_page,
-                supplierStore.dataLimit
+          supplierStore.getSuppliers(
+            supplierStore.pagination.current_page,
+            supplierStore.dataLimit
           );
         }
       });
     }
-    });
-}
-onMounted( ()=>{
-   supplierStore.getSuppliers(
+  });
+};
+onMounted(() => {
+  supplierStore.getSuppliers(
     supplierStore.pagination.current_page,
     supplierStore.dataLimit
-   );
+  );
 });
 </script>
 
@@ -91,20 +91,24 @@ onMounted( ()=>{
             </thead>
 
             <tbody>
-              <tr v-for="(supplier,index) in supplierStore.suppliers" :key="supplier.id">
+              <tr
+                v-for="(supplier, index) in supplierStore.suppliers"
+                :key="supplier.id"
+              >
                 <td>
-                    {{
+                  {{
                     supplierStore.pagination.current_page *
-                    supplierStore.dataLimit -
+                      supplierStore.dataLimit -
                     supplierStore.dataLimit +
-                    index +1
+                    index +
+                    1
                   }}
                 </td>
                 <td>{{ supplier.name }}</td>
                 <td>{{ supplier.phone }}</td>
                 <td>{{ supplier.email }}</td>
                 <td>
-                    {{ supplier.company_name }}
+                  {{ supplier.company_name }}
                 </td>
                 <td>
                   <div class="custom-control custom-switch">
@@ -143,19 +147,18 @@ onMounted( ()=>{
           </table>
         </div>
         <div class="d-flex justify-content-end">
-            <v-pagination v-model="supplierStore.pagination.current_page"
-            :pages = "supplierStore.pagination.last_page"
-            :range = "1"
-             active-color="#fff"
-             @update:modelValue="
-              supplierStore.getCategories(
+          <v-pagination
+            v-model="supplierStore.pagination.current_page"
+            :pages="supplierStore.pagination.last_page"
+            :range="1"
+            active-color="#fff"
+            @update:modelValue="
+              supplierStore.getSuppliers(
                 supplierStore.pagination.current_page,
                 supplierStore.dataLimit
               )
             "
-            />
-
-
+          />
         </div>
       </div>
     </div>

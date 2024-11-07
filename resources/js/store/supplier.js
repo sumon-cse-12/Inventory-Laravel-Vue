@@ -108,7 +108,7 @@ export const useSupplierStore  = defineStore('supplier',{
                         'content-type': 'multipart/form-data'
                     }
                 };
-                const {data} = await inventoryAxiosClient.post('/Suppliers', formData, config);
+                const {data} = await inventoryAxiosClient.post('/suppliers', formData, config);
                 console.log(data);
                 this.swal({
                     icon: 'success',
