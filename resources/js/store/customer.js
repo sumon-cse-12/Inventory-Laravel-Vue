@@ -3,12 +3,12 @@ import { inventoryAxiosClient } from "../utils/system_axios";
 import config from '../utils/config';
 
 
-export const useSupplierStore  = defineStore('supplier',{
+export const useCustomerStore  = defineStore('customer',{
     state: () => ({
         rawData: [],
         dataLimit: config.defaultDataLimit || 10,
-        suppliers: [],
-        supplier: null,
+        customers: [],
+        customer: null,
         errors: [],
         is_loading: false,
         swal: null,
@@ -22,9 +22,6 @@ export const useSupplierStore  = defineStore('supplier',{
             name: null,
             phone: null,
             email: null,
-            nid: null,
-            address: null,
-            company_name: null,
             password: null,
             file: null,
             _method: 'PUT'
@@ -36,12 +33,12 @@ export const useSupplierStore  = defineStore('supplier',{
         },
     },
     actions: {
-        async getAllSuppliers(){
+        async getAllCustomers(){
             this.is_loading = true;
             try {
-                const {data}= await inventoryAxiosClient.get("/all-suppliers");
+                const {data}= await inventoryAxiosClient.get("/all-customers");
                 this.rawData = data;
-                this.suppliers = data.data;
+                this.customers = data.data;
                 this.pagination.totalCount = data.metadata.count;
                 this.is_loading = false;
             } catch (error) {
@@ -54,19 +51,19 @@ export const useSupplierStore  = defineStore('supplier',{
                 })
             }
         },
-        async getSuppliers(page=1, limit = this.dataLimit, search=""){
+        async getCustomers(page=1, limit = this.dataLimit, search=""){
             this.is_loading = true;
             try {
-                const { data } = await inventoryAxiosClient.get("/suppliers", {
+                const { data } = await inventoryAxiosClient.get("/customers", {
                     params: {
                         page: page,
                         per_page: limit,
                         search: search,
                     }
                 });
-                console.log(data);
-                this.rawData = data.data;
-                this.suppliers = data.data.data;
+                console.log(data,'oooo');
+                this.rawData = data;
+                this.customers = data.data;
                 this.pagination.current_page = data.data.current_page;
                 this.pagination.last_page = data.data.last_page;
                 this.pagination.totalCount = data.data.total;
@@ -81,18 +78,14 @@ export const useSupplierStore  = defineStore('supplier',{
                 })
             }
         },
-        async getSupplier(supplier_id){
+        async getCustomer(customer_id){
             this.is_loading = true;
             try {
-                const { data } = await inventoryAxiosClient.get(`/suppliers/${supplier_id}`);
-                console.log(data,'ollll');
-                this.supplier = data.data;
+                const { data } = await inventoryAxiosClient.get(`/customers/${customer_id}`);
+                this.customer = data.data;
                 this.editFormData.name = data.data.name;
                 this.editFormData.email = data.data.email;
                 this.editFormData.phone = data.data.phone;
-                this.editFormData.address = data.data.address;
-                this.editFormData.company_name = data.data.company_name;
-                this.editFormData.nid = data.data.nid;
                 this.is_loading = false;
             } catch (error) {
                 this.is_loading = false;
@@ -104,7 +97,7 @@ export const useSupplierStore  = defineStore('supplier',{
                 })
             }
         },
-        async storeSupplier(formData){
+        async storeCustomer(formData){
             this.is_loading = false;
             try {
                 const config = {
@@ -112,14 +105,14 @@ export const useSupplierStore  = defineStore('supplier',{
                         'content-type': 'multipart/form-data'
                     }
                 };
-                const {data} = await inventoryAxiosClient.post('/suppliers', formData, config);
+                const {data} = await inventoryAxiosClient.post('/customers', formData, config);
                 console.log(data);
                 this.swal({
                     icon: 'success',
                     title: 'Data Stored Successfully!'
                 });
                 this.is_loading = false;
-                this.router.push({name: 'supplier-index'});
+                this.router.push({name: 'customer-index'});
             } catch (error) {
                 this.is_loading = false;
 
@@ -132,7 +125,7 @@ export const useSupplierStore  = defineStore('supplier',{
                 })
             }
         },
-        async updateSupplier(formData, supplier_id){
+        async updateCustomer(formData, customer_id){
             this.is_loading = false;
             try {
                 const config = {
@@ -140,13 +133,13 @@ export const useSupplierStore  = defineStore('supplier',{
                         'content-type': 'multipart/form-data'
                     }
                 };
-                const {data} = await inventoryAxiosClient.post(`/suppliers/${supplier_id}`, formData, config);
+                const {data} = await inventoryAxiosClient.post(`/customers/${customer_id}`, formData, config);
                 this.swal({
                     icon: 'success',
                     title: 'Data Updated Successfully!'
                 });
                 this.is_loading = false;
-                this.router.push({name: 'supplier-index'});
+                this.router.push({name: 'customer-index'});
             } catch (error) {
                 this.is_loading = false;
                 console.log(error);
@@ -158,10 +151,10 @@ export const useSupplierStore  = defineStore('supplier',{
                 })
             }
         },
-        async deleteSupplier(supplier_id, callback){
+        async deleteCustomer(customer_id, callback){
             this.is_loading = false;
             try {
-                const { data } = await inventoryAxiosClient.delete(`/suppliers/${supplier_id}`);
+                const { data } = await inventoryAxiosClient.delete(`/customers/${customer_id}`);
                 callback('success');
                 this.swal({
                     icon: 'success',
@@ -181,10 +174,10 @@ export const useSupplierStore  = defineStore('supplier',{
                 this.is_loading = false;
             }
         },
-  async changeStatus(supplier_id){
+  async changeStatus(customer_id){
             this.is_loading = true;
             try {
-                const { data } = await inventoryAxiosClient.get(`/suppliers/status/${supplier_id}`);
+                const { data } = await inventoryAxiosClient.get(`/customers/status/${customer_id}`);
                 this.is_loading = false;
                 this.swal({
                     icon: 'success',
