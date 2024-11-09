@@ -13,9 +13,6 @@ const formData = reactive({
   name: null,
   email: null,
   phone: null,
-  nid: null,
-  company_name: null,
-  address: null,
   file: null,
 });
 

@@ -5,6 +5,7 @@ import { useCustomerStore } from "../../store/customer";
 import { useRouter } from "vue-router";
 
 const customerStore = useCustomerStore();
+
 const router = useRouter();
 const swal = inject("$swal");
 customerStore.swal = swal;
@@ -29,6 +30,8 @@ const DeleteCustomer = (id, name) => {
   });
 };
 onMounted(() => {
+    console.log(customerStore.customers,'ppp');
+
   customerStore.getCustomers(
     customerStore.pagination.current_page,
     customerStore.dataLimit
@@ -59,7 +62,7 @@ onMounted(() => {
             <div class="row">
               <div class="col-8">
                 <strong>Total Count</strong> :
-                <em>12</em>
+                <em>{{customerStore.getTotalCount  }}</em>
               </div>
               <div class="col-4">
                 <input
@@ -90,10 +93,7 @@ onMounted(() => {
             </thead>
 
             <tbody>
-              <tr
-                v-for="(customer, index) in customerStore.customers"
-                :key="customer.id"
-              >
+                <tr v-for="(customer,index) in customerStore.customers" :key="customer.id">
                 <td>
                   {{
                     customerStore.pagination.current_page *
@@ -106,9 +106,6 @@ onMounted(() => {
                 <td>{{ customer.name }}</td>
                 <td>{{ customer.phone }}</td>
                 <td>{{ customer.email }}</td>
-                <td>
-                  {{ customer.company_name }}
-                </td>
                 <td>
                   <div class="custom-control custom-switch">
                     <input

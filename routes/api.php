@@ -28,7 +28,7 @@ Route::apiResource('categories', CategoryController::class);
 
 Route::get('/all-brands', [BrandController::class, 'allBrands']);
 Route::apiResource('brands', BrandController::class);
-Route::get('/all-customers', [BrandController::class, 'allCustomer']);
+Route::get('/all-customers', [BrandController::class, 'allCustomers']);
 Route::apiResource('customers', CustomerController::class);
 Route::get('/all-suppliers', [BrandController::class, 'allSuppliers']);
 Route::apiResource('suppliers', SupplierController::class);

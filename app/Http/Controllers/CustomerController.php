@@ -13,11 +13,11 @@ class CustomerController extends Controller
 {
     use ApiResponse;
 
-    private $CustomerRepository;
+    private $customerRepository;
 
-    public function __construct(CustomerInterface $CustomerRepository)
+    public function __construct(CustomerInterface $customerRepository)
     {
-        $this->CustomerRepository = $CustomerRepository;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -25,7 +25,7 @@ class CustomerController extends Controller
      */
     public function allCustomer()
     {
-        $data = $this->CustomerRepository->all();
+        $data = $this->customerRepository->all();
         $metadata['count'] = count($data);
         if(!$data){
             return $this->ResponseError([], null, 'No Data Found!', 200, 'error');
@@ -39,7 +39,7 @@ class CustomerController extends Controller
     public function index()
     {
         $perPage = request('per_page');
-        $data = $this->CustomerRepository->allPaginate($perPage);
+        $data = $this->customerRepository->allPaginate($perPage);
         $metadata['count'] = count($data);
         if(!$data){
             return $this->ResponseError([], null, 'No Data Found!', 200, 'error');
@@ -53,7 +53,7 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         try {
-            $data = $this->CustomerRepository->store($request);
+            $data = $this->customerRepository->store($request);
             return $this->ResponseSuccess(new CustomerResource($data), null, 'Data Stored Successfully!', 201);
         } catch (\Exception $e) {
            return $this->ResponseError($e->getMessage());
@@ -65,7 +65,7 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        $data = $this->CustomerRepository->show($id);
+        $data = $this->customerRepository->show($id);
         if(!$data){
             return $this->ResponseError([], null, 'No Data Found!', 200, 'error');
         }
@@ -78,7 +78,7 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, string $id)
     {
         try {
-            $data = $this->CustomerRepository->update($request, $id);
+            $data = $this->customerRepository->update($request, $id);
             return $this->ResponseSuccess(new CustomerResource($data), null, 'Data Updated Successfully!', 200);
         } catch (\Exception $e) {
            return $this->ResponseError($e->getMessage());
@@ -91,7 +91,7 @@ class CustomerController extends Controller
     public function destroy(string $id)
     {
         try {
-            $data = $this->CustomerRepository->delete($id);
+            $data = $this->customerRepository->delete($id);
             return $this->ResponseSuccess($data, null, 'Data Deleted Successfully!', 204);
         } catch (\Exception $e) {
            return $this->ResponseError($e->getMessage());
@@ -103,7 +103,7 @@ class CustomerController extends Controller
     public function status(string $id)
     {
         try {
-            $data = $this->CustomerRepository->status($id);
+            $data = $this->customerRepository->status($id);
             return $this->ResponseSuccess($data, null, 'Data Updated Successfully!', 204);
         } catch (\Exception $e) {
            return $this->ResponseError($e->getMessage());

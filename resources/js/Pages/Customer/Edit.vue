@@ -11,11 +11,11 @@ customerStore.swal = swal;
 customerStore.router = router;
 
 const schema = reactive({
-  name: "required",
-  email: "nullable|email",
-  phone: "required|min:11|max:15",
-
+  name: { required: true },
+  email: { email: true },
+  phone: { required: true, min: 11, max: 15 },
 });
+
 
 const updateCustomerData = () => {
   customerStore.updateCustomer(customerStore.editFormData,route.params.id);
@@ -24,6 +24,9 @@ const updateCustomerData = () => {
 const onChange = (e) => {
     formData.file = e.target.files[0];
 }
+onMounted( () => {
+    customerStore.getCustomer(route.params.id)
+})
 </script>
 <template>
   <div class="container-fluid p-4">

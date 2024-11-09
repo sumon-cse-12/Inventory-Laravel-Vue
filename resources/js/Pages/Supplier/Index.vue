@@ -59,7 +59,7 @@ onMounted(() => {
             <div class="row">
               <div class="col-8">
                 <strong>Total Count</strong> :
-                <em>12</em>
+                <em>{{ supplierStore.getTotalCount }}</em>
               </div>
               <div class="col-4">
                 <input
