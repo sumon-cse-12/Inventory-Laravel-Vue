@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
@@ -32,3 +33,6 @@ Route::get('/all-customers', [BrandController::class, 'allCustomers']);
 Route::apiResource('customers', CustomerController::class);
 Route::get('/all-suppliers', [BrandController::class, 'allSuppliers']);
 Route::apiResource('suppliers', SupplierController::class);
+
+Route::get('/all-staffs', [StaffController::class, 'allStaffs']);
+Route::apiResource('staffs', StaffController::class);

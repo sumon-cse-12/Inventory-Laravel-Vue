@@ -31,6 +31,9 @@ const router = createRouter({
         {path: 'admin/customer/create', name:'customer-create', component: () => import('../Pages/Customer/Create.vue')},
         {path: 'admin/customer/edit/:id', name:'customer-edit', component: () => import('../Pages/Customer/Edit.vue')},
 
+        {path: 'admin/staff/index', name:'staff-index', component: () => import('../Pages/Staff/Index.vue')},
+        {path: 'admin/staff/create', name:'staff-create', component: () => import('../Pages/Staff/Create.vue')},
+        {path: 'admin/staff/edit/:id', name:'staff-edit', component: () => import('../Pages/Staff/Edit.vue')},
       ]
     },
     // {
