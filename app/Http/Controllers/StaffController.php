@@ -6,6 +6,7 @@ use App\Trait\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\StaffRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateStaffRequest;
 use App\Http\Resources\staffResource;
 use App\Repositories\Staff\StaffInterface;
 
@@ -75,7 +76,7 @@ class StaffController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StaffRequest $request, string $id)
+    public function update(UpdateStaffRequest $request, string $id)
     {
         try {
             $data = $this->staffRepository->update($request, $id);
