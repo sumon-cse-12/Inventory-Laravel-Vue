@@ -36,3 +36,6 @@ Route::apiResource('suppliers', SupplierController::class);
 
 Route::get('/all-staffs', [StaffController::class, 'allStaffs']);
 Route::apiResource('staffs', StaffController::class);
+
+Route::get('/all-products', [StaffController::class, 'allProducts']);
+Route::apiResource('products', StaffController::class);
