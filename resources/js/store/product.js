@@ -3,7 +3,7 @@ import { inventoryAxiosClient } from "../utils/system_axios";
 import config from '../utils/config';
 
 
-export const useProductStore  = defineStore('product',{
+export const useProductStore = defineStore('product', {
     state: () => ({
         rawData: [],
         dataLimit: config.defaultDataLimit || 10,
@@ -19,27 +19,32 @@ export const useProductStore  = defineStore('product',{
             totalCount: 0,
         },
         editFormData: {
-            name: null,
-            phone: null,
-            email: null,
-            nid: null,
-            address: null,
-            company_name: null,
-            password: null,
+            brand_id: '',
+            category_id: '',
+            supplier_id: '',
+            name: '',
+            code: '',
+            original_price: 0,
+            sell_price: 0,
+            stock: 1,
+            description: null,
             file: null,
             _method: 'PUT'
         }
     }),
+
     getters: {
         getTotalCount(state){
             return state.pagination.totalCount;
         },
     },
+
     actions: {
         async getAllProducts(){
             this.is_loading = true;
             try {
-                const {data}= await inventoryAxiosClient.get("/all-products");
+                const { data } = await inventoryAxiosClient.get("/all-products");
+                console.log(data);
                 this.rawData = data;
                 this.products = data.data;
                 this.pagination.totalCount = data.metadata.count;
@@ -54,19 +59,21 @@ export const useProductStore  = defineStore('product',{
                 })
             }
         },
-        async getProducts(page=1, limit = this.dataLimit, search=""){
+        async getProducts(page=1, limit = this.dataLimit, search="", filterFormData=""){
             this.is_loading = true;
             try {
-                const { data } = await inventoryAxiosClient.get("/Products", {
+                const { data } = await inventoryAxiosClient.get("/products", {
                     params: {
                         page: page,
                         per_page: limit,
                         search: search,
+                        category_id: filterFormData.category_id,
+                        brand_id: filterFormData.brand_id,
                     }
                 });
                 console.log(data);
                 this.rawData = data.data;
-                this.Products = data.data.data;
+                this.products = data.data.data;
                 this.pagination.current_page = data.data.current_page;
                 this.pagination.last_page = data.data.last_page;
                 this.pagination.totalCount = data.data.total;
@@ -84,15 +91,19 @@ export const useProductStore  = defineStore('product',{
         async getProduct(product_id){
             this.is_loading = true;
             try {
-                const { data } = await inventoryAxiosClient.get(`/Products/${product_id}`);
-                console.log(data,'ollll');
-                this.Product = data.data;
+                const { data } = await inventoryAxiosClient.get(`/products/${product_id}`);
+                console.log(data);
+                this.product = data.data;
                 this.editFormData.name = data.data.name;
-                this.editFormData.email = data.data.email;
-                this.editFormData.phone = data.data.phone;
-                this.editFormData.address = data.data.address;
-                this.editFormData.company_name = data.data.company_name;
-                this.editFormData.nid = data.data.nid;
+                this.editFormData.code = data.data.code;
+                this.editFormData.original_price = data.data.original_price;
+                this.editFormData.sell_price = data.data.sell_price;
+                this.editFormData.stock = data.data.stock;
+                this.editFormData.description = data.data.description;
+                this.editFormData.brand_id = data.data.brand_id;
+                this.editFormData.category_id = data.data.category_id;
+                this.editFormData.supplier_id = data.data.supplier_id;
+
                 this.is_loading = false;
             } catch (error) {
                 this.is_loading = false;
@@ -112,7 +123,7 @@ export const useProductStore  = defineStore('product',{
                         'content-type': 'multipart/form-data'
                     }
                 };
-                const {data} = await inventoryAxiosClient.post('/Products', formData, config);
+                const {data} = await inventoryAxiosClient.post('/products', formData, config);
                 console.log(data);
                 this.swal({
                     icon: 'success',
@@ -122,13 +133,12 @@ export const useProductStore  = defineStore('product',{
                 this.router.push({name: 'product-index'});
             } catch (error) {
                 this.is_loading = false;
-
+                console.log(error);
                 this.errors = error.response.data;
-                console.log(error.response.data.message,'ppp');
                 this.swal({
                     icon:'error',
                     title: 'Something went wrong!',
-                    text: error.response.data.message
+                    text: this.errors
                 })
             }
         },
@@ -145,8 +155,9 @@ export const useProductStore  = defineStore('product',{
                     icon: 'success',
                     title: 'Data Updated Successfully!'
                 });
+                this.getProducts(this.pagination.current_page, this.dataLimit);
                 this.is_loading = false;
-                this.router.push({name: 'Product-index'});
+                this.router.push({name: 'product-index'});
             } catch (error) {
                 this.is_loading = false;
                 console.log(error);
@@ -181,10 +192,10 @@ export const useProductStore  = defineStore('product',{
                 this.is_loading = false;
             }
         },
-  async changeStatus(product_id){
+        async changeStatus(product_id){
             this.is_loading = true;
             try {
-                const { data } = await inventoryAxiosClient.get(`/Products/status/${product_id}`);
+                const { data } = await inventoryAxiosClient.get(`/products/status/${product_id}`);
                 this.is_loading = false;
                 this.swal({
                     icon: 'success',
@@ -203,5 +214,6 @@ export const useProductStore  = defineStore('product',{
             }
         },
     }
-});
 
+
+});

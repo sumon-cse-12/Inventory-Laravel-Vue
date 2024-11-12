@@ -33,8 +33,8 @@ const saveSupplierData = () => {
 };
 
 const onChange = (e) => {
-    formData.file = e.target.files[0];
-}
+  formData.file = e.target.files[0];
+};
 </script>
 <template>
   <div class="container-fluid p-4">
@@ -57,7 +57,7 @@ const onChange = (e) => {
         <div class="card">
           <div class="card-body">
             <vee-form
-            :validation-schema="schema"
+              :validation-schema="schema"
               @submit="saveSupplierData"
               enctype="multipart/form-data"
             >

@@ -40,7 +40,7 @@ export const useBrandStore  = defineStore('brand', {
                 const {data} = await inventoryAxiosClient.get("/all-brands");
                 console.log(data);
                 this.rawData = data;
-                this.brands = data.data.data;
+                this.brands = data.data;
 
                 this.paigination.totalCount = data.metadata.count;
 

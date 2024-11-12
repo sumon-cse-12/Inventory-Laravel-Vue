@@ -24,7 +24,7 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function allSupplier()
+    public function allSuppliers()
     {
         $data = $this->supplierRepository->all();
         $metadata['count'] = count($data);
