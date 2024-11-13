@@ -13,8 +13,8 @@ const brandStore = useBrandStore();
 const categoryStore = useCategoryStore();
 const router = useRouter();
 const swal = inject("$swal");
-supplierStore.swal = swal;
-supplierStore.router = router;
+productStore.swal = swal;
+productStore.router = router;
 
 const formData = reactive({
   brand_id: '',

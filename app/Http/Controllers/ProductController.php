@@ -94,6 +94,7 @@ class ProductController extends Controller
             $data = $this->productRepository->delete($id);
             return $this->ResponseSuccess($data, null, 'Data Deleted Successfully!', 204);
         } catch (\Exception $e) {
+
            return $this->ResponseError($e->getMessage());
         }
     }

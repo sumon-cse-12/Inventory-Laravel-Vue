@@ -44,7 +44,6 @@ export const useProductStore = defineStore('product', {
             this.is_loading = true;
             try {
                 const { data } = await inventoryAxiosClient.get("/all-products");
-                console.log(data);
                 this.rawData = data;
                 this.products = data.data;
                 this.pagination.totalCount = data.metadata.count;
@@ -151,6 +150,8 @@ export const useProductStore = defineStore('product', {
                     }
                 };
                 const {data} = await inventoryAxiosClient.post(`/products/${product_id}`, formData, config);
+                console.log(data,'product data');
+
                 this.swal({
                     icon: 'success',
                     title: 'Data Updated Successfully!'
@@ -181,6 +182,8 @@ export const useProductStore = defineStore('product', {
                 })
                 this.is_loading = false;
             } catch (error) {
+                console.log(error);
+
                 this.errors = error.response.data;
                 this.swal({
                     icon: 'error',

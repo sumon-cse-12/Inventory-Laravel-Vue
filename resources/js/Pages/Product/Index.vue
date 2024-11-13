@@ -19,7 +19,7 @@ const DeleteProduct = (id, name) => {
     if (result.isConfirmed) {
       productStore.deleteProduct(id, (status) => {
         if (status == "success") {
-          productStore.getproducts(
+          productStore.getProducts(
             productStore.pagination.current_page,
             productStore.dataLimit
           );
