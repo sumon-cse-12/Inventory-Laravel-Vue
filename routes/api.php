@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
@@ -42,3 +43,7 @@ Route::apiResource('staffs', StaffController::class);
 
 Route::get('/all-products', [ProductController::class, 'allProducts']);
 Route::apiResource('products', ProductController::class);
+
+Route::get('/all-expenses', [ExpenseController::class, 'allExpense']);
+Route::get('/all-expenses-category', [ExpenseController::class, 'allExpenseCategory']);
+Route::apiResource('/expenses', ExpenseController::class)->except(['destroy']);
