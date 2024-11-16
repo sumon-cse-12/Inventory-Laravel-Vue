@@ -38,6 +38,10 @@ const router = createRouter({
         {path: 'admin/product/index', name:'product-index', component: () => import('../Pages/Product/Index.vue')},
         {path: 'admin/product/create', name:'product-create', component: () => import('../Pages/Product/Create.vue')},
         {path: 'admin/product/edit/:id', name:'product-edit', component: () => import('../Pages/Product/Edit.vue')},
+
+        {path: 'admin/expense/index', name:'expense-index', component: () => import('../Pages/Expense/Index.vue')},
+        {path: 'admin/expense/create', name:'expense-create', component: () => import('../Pages/Expense/Create.vue')},
+        {path: 'admin/expense/edit/:id', name:'expense-edit', component: () => import('../Pages/Expense/Edit.vue')},
       ]
     },
     // {
