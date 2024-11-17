@@ -6,8 +6,8 @@ use App\Trait\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\StaffRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateStaffRequest;
 use App\Http\Resources\staffResource;
+use App\Http\Requests\UpdateStaffRequest;
 use App\Repositories\Staff\StaffInterface;
 
 class StaffController extends Controller
@@ -24,7 +24,7 @@ class StaffController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function allStaff()
+    public function allStaffs()
     {
         $data = $this->staffRepository->all();
         $metadata['count'] = count($data);

@@ -81,20 +81,9 @@ onMounted(() => {
                   <label for="category-name" class="form-label"
                     >Expense Category Name</label
                   >
-                  <vee-field
-                    as="select"
-                    class="form-select"
-                    name="expense_category_id"
-                    v-model="formData.expense_category_id"
-                  >
+                  <vee-field as="select" class="form-control" name="expense_category_id" v-model="formData.expense_category_id">
                     <option value="">Select Expense Category Name</option>
-                    <option
-                      :value="category.id"
-                      v-for="(
-                        category, index
-                      ) in expenseStore.expenses_category"
-                      :key="category.id"
-                    >
+                    <option :value="category.id" v-for="(category, index) in expenseStore.expenses_category" :key="category.id">
                       {{ index + 1 }}. {{ category.name }}
                     </option>
                   </vee-field>
@@ -107,7 +96,7 @@ onMounted(() => {
                   <label for="staff-name" class="form-label">Staff Name</label>
                   <vee-field
                     as="select"
-                    class="form-select"
+                    class="form-control"
                     name="staff_id"
                     v-model="formData.staff_id"
                   >
