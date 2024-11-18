@@ -7,6 +7,8 @@ use App\Repositories\Brand\BrandInterface;
 use App\Repositories\Staff\StaffInterface;
 use App\Repositories\Brand\BrandRepository;
 use App\Repositories\Staff\StaffRepository;
+use App\Repositories\Salary\SalaryInterface;
+use App\Repositories\Salary\SalaryRepository;
 use App\Repositories\Expense\ExpenseInterface;
 use App\Repositories\Product\ProductInterface;
 use App\Repositories\Expense\ExpenseRepository;
@@ -32,6 +34,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(StaffInterface::class, StaffRepository::class);
         $this->app->bind(ProductInterface::class, ProductRepository::class);
         $this->app->bind(ExpenseInterface::class, ExpenseRepository::class);
+        $this->app->bind(SalaryInterface::class, SalaryRepository::class);
     }
 
     /**
