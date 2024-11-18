@@ -70,7 +70,7 @@ onMounted(() => {
                   <!-- category Name -->
                   <div class="col-md-6 mb-4">
                     <label for="category-name" class="form-label">Expense Category Name</label>
-                    <vee-field as="select" class="form-select" name="expense_category_id"
+                    <vee-field as="select" class="form-control" name="expense_category_id"
                       v-model="expenseStore.editFormData.expense_category_id">
                       <option value="">Select Expense Category Name</option>
                       <option :value="category.id" v-for="(category, index) in expenseStore.expenses_category"
@@ -83,7 +83,7 @@ onMounted(() => {
                   <!-- staff Name -->
                   <div class="col-md-6 mb-4">
                     <label for="staff-name" class="form-label">Staff Name</label>
-                    <vee-field as="select" class="form-select" name="staff_id" v-model="expenseStore.editFormData.staff_id">
+                    <vee-field as="select" class="form-control" name="staff_id" v-model="expenseStore.editFormData.staff_id">
                       <option value="">Select Staff Name</option>
                       <option :value="staff.id" v-for="(staff, index) in staffStore.staffs" :key="staff.id">{{ index + 1 }}.
                         {{ staff.name }}</option>
