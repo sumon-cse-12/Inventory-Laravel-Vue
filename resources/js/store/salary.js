@@ -135,4 +135,4 @@ export const useSalaryStore = defineStore('salary', {
         },
     }
 
-});
+}); 

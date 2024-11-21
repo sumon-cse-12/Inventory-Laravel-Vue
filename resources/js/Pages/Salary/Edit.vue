@@ -1,142 +1,148 @@
 <script setup>
 import { ref, reactive, watch, onMounted, inject } from "vue";
+import { useSalaryStore } from "../../store/salary";
 import { useStaffStore } from "../../store/staff";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter, useRoute } from 'vue-router';
+import { getYears, getMonths } from "../../helper/helper"
 
+const salaryStore = useSalaryStore();
 const staffStore = useStaffStore();
-const router = useRouter();
+
 const swal = inject("$swal");
+const router = useRouter();
+const route = useRoute();
+
+salaryStore.swal = swal;
+salaryStore.router = router;
+
 staffStore.swal = swal;
 staffStore.router = router;
-const route  = useRoute();
+
+/* All Variables and Constants */
 
 const schema = reactive({
-  name: "required",
-  email: "required|email",
-  phone: "required|min:11|max:15",
-  nid: "required",
-  address: "required",
+  month: 'required',
+  year: 'required',
+  date: 'required',
+  type: 'required',
+  staff_id: 'required',
+  amount: 'required',
 });
 
-const updateStaffData = () => {
-  staffStore.updateStaff(staffStore.editFormData,route.params.id);
-};
-
-
-const onChange = (e) => {
-    formData.file = e.target.files[0];
+/* All Methods */
+const UpdateSalary = () => {
+  salaryStore.updateSalary(salaryStore.editFormData, route.params.id);
 }
-onMounted( () => {
-    staffStore.getStaff(route.params.id)
+
+/* Hooks and OnMounted */
+onMounted(() => {
+  salaryStore.getSalary(route.params.id);
+  staffStore.getAllStaffs();
 })
+
 </script>
+
 <template>
-  <div class="container-fluid p-4">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex align-items-center justify-content-between">
-              <h4>staff Edit</h4>
-              <router-link
-                to="/admin/staff/index"
-                class="btn btn-info btn-sm"
-                >Back</router-link
-              >
+  <div class="page-content">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="card border-primary">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <h4 class="card-title text-primary fw-bold">Expense Update</h4>
+                <router-link :to="{ name: 'expense-index' }" class="btn btn-primary text-white fw-bold">
+                  <i class="fas fa-arrow-left"></i> Expense List</router-link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <vee-form
-            :validation-schema="schema"
-              @submit="updateStaffData"
-              enctype="multipart/form-data"
-            >
-              <div class="row">
-                <div class="col-6 mb-3">
-                  <label for="">Name</label>
-                  <vee-field
-                    type="text"
-                    name="name"
-                    v-model="staffStore.editFormData.name"
-                    class="form-control"
-                    placeholder="Enter staff Name"
-                  />
-                  <ErrorMessage class="text-danger" name="name" />
-                </div>
-                <div class="col-6 mb-3">
-                  <label for="">Email</label>
-                  <vee-field
-                    type="email"
-                    name="email"
-                    v-model="staffStore.editFormData.email"
-                    class="form-control"
-                    placeholder="Enter staff Email"
-                  />
-                  <ErrorMessage class="text-danger" name="email" />
-                </div>
-                <div class="col-6 mb-3">
-                  <label for="">Phone</label>
-                  <vee-field
-                    type="text"
-                    name="phone"
-                    v-model="staffStore.editFormData.phone"
-                    class="form-control"
-                    placeholder="Enter staff Phone"
-                  />
-                  <ErrorMessage class="text-danger" name="phone" />
-                </div>
-                <div class="col-6 mb-3">
-                  <label for="">NID</label>
-                  <vee-field
-                    type="text"
-                    name="nid"
-                    v-model="staffStore.editFormData.nid"
-                    class="form-control"
-                    placeholder="Enter staff NID"
-                  />
-                  <ErrorMessage class="text-danger" name="nid" />
+
+        <div class="col-md-12">
+          <div class="card border-primary">
+            <div class="card-body">
+              <vee-form :validation-schema="schema" @submit="UpdateSalary" class="mt-4 pt-2"
+                enctype="multipart/form-data">
+
+                <div class="row">
+
+                  <!-- salary date -->
+                  <div class="col-md-4 mb-4">
+                    <label for="salary-original_price">Salary Date</label>
+                    <vee-field type="date" class="form-control" name="date" v-model="salaryStore.editFormData.date"
+                      placeholder="Enter salary date" min="0" />
+                    <ErrorMessage class="text-danger" name="date" />
+                  </div>
+                  <!-- salary amount -->
+
+                  <!-- salary Month -->
+                  <div class="col-md-4 mb-4">
+                    <label for="salary-original_price">Salary Month</label>
+                    <vee-field as="select" class="form-select" name="month" v-model="salaryStore.editFormData.month">
+                      <option value="">Select Month</option>
+                      <option :value="month" v-for="(month, index) in getMonths()" :key="index">{{ index + 1 }}. {{ month }}
+                      </option>
+                    </vee-field>
+                    <ErrorMessage class="text-danger" name="month" />
+                  </div>
+                  <!-- salary month -->
+
+                  <!-- salary year -->
+                  <div class="col-md-4 mb-4">
+                    <label for="salary-original_price">Salary Year</label>
+                    <vee-field as="select" class="form-select" name="year" v-model="salaryStore.editFormData.year">
+                      <option value="">Select Year</option>
+                      <option :value="year" v-for="(year, index) in getYears(2010)" :key="index">{{ year }}</option>
+                    </vee-field>
+                    <ErrorMessage class="text-danger" name="year" />
+                  </div>
+                  <!-- salary year -->
+
+                  <!-- staff Name -->
+                  <div class="col-md-6 mb-4">
+                    <label for="staff-name" class="form-label">Staff Name</label>
+                    <vee-field as="select" class="form-select" name="staff_id" v-model="salaryStore.editFormData.staff_id">
+                      <option value="">Select Staff Name</option>
+                      <option :value="staff.id" v-for="(staff, index) in staffStore.staffs" :key="staff.id">{{ index + 1 }}.
+                        {{ staff.name }}</option>
+                    </vee-field>
+                    <ErrorMessage class="text-danger" name="staff_id" />
+                  </div>
+                  <!-- staff Name -->
+
+                  <!-- salary amount -->
+                  <div class="col-md-6 mb-4">
+                    <label for="salary-amount">Salary Amount</label>
+                    <vee-field type="number" class="form-control" name="amount" v-model="salaryStore.editFormData.amount"
+                      placeholder="Enter salary amount" min="0" />
+                    <ErrorMessage class="text-danger" name="amount" />
+                  </div>
+                  <!-- salary amount -->
+
+                  <!-- salary type -->
+                  <div class="col-md-12 mb-4">
+                    <label for="salary-original_price">Salary type</label>
+                    <vee-field as="select" class="form-select" name="type" v-model="salaryStore.editFormData.type">
+                      <option value="">Select type</option>
+                      <option :value="type" v-for="(type, index) in salaryStore.salary_types" :key="index">{{ type }}
+                      </option>
+                    </vee-field>
+                    <ErrorMessage class="text-danger" name="type" />
+                  </div>
+                  <!-- salary type -->
                 </div>
 
-                <div class="col-6 mb-3">
-                  <label for="">Address</label>
-                  <vee-field
-                    type="text"
-                    name="address"
-                    v-model="staffStore.editFormData.address"
-                    class="form-control"
-                    placeholder="Enter staff Address"
-                  />
-                  <ErrorMessage class="text-danger" name="address" />
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                  <button type="submit" class="btn btn-warning fw-bold">Update</button>
                 </div>
-                <div class="col-12 mb-3">
-                  <label for="">Upload Image</label>
-                  <vee-field
-                    type="file"
-                    @change="onChange"
-                    name="file"
-                    class="form-control"
-                    accept="image/*"
-                  />
-                </div>
-                <div class="col-sm-12">
-                  <Button type="submit" class="btn btn-primary">Update</Button>
-                </div>
-              </div>
-            </vee-form>
+              </vee-form>
+
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</template>
 
-    <style>
-.staff-img {
-  width: 100px;
-  height: 100px;
-}
-</style>
+
+      </div>
+  </div>
+</div></template>

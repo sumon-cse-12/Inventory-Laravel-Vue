@@ -41,6 +41,7 @@ class SalaryController extends Controller
      */
     public function store(StoreSalaryRequest $request)
     {
+
         try {
             /* Check already paid or not */
             $check = Salary::where(['staff_id' => $request->staff_id, 'month' => $request->month, 'year' => $request->year])->count();
