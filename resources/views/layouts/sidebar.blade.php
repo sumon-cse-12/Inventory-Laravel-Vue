@@ -96,6 +96,14 @@
                 </router-link>
             </li>
             <li class="nav-item">
+                <router-link :to="{name:'pos'}" active-class="active" class="nav-link">
+                    <i class="nav-icon fa fa-list"></i>
+                    <p>
+                    Pos
+                    </p>
+                </router-link>
+            </li>
+            <li class="nav-item">
                 <router-link  to="/admin/settings" active-class="active" class="nav-link">
                     <i class="nav-icon fas fa-cog"></i>
                     <p>

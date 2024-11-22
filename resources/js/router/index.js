@@ -13,6 +13,7 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         { path: 'admin/dashboard', name: 'dashboard', component: () => import('../components/Dashboard.vue') },
+        { path: 'admin/pos', name: 'pos', component: () => import('../Pages/Pos/Index.vue') },
 
 
         { path: '/admin/category', name:'category-index', component: () => import('../Pages/Category/Index.vue') },

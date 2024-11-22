@@ -35,7 +35,7 @@ export const useSalaryStore = defineStore('salary', {
     },
 
     actions: {
-        async getSalarys(page = 1, limit = this.dataLimit, search = "", filterData = ''){
+        async getSalaries(page = 1, limit = this.dataLimit, search = "", filterData = ''){
             this.is_loading = true;
             try {
                 const { data } = await inventoryAxiosClient.get("/salaries", {
@@ -135,4 +135,4 @@ export const useSalaryStore = defineStore('salary', {
         },
     }
 
-}); 
+});
