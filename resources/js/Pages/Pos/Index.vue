@@ -4,7 +4,7 @@ import { ref, reactive, onMounted, inject, watch } from "vue";
 import { useBrandStore } from "../../store/brand";
 import { useProductStore } from "../../store/product";
 import { useCategoryStore } from "../../store/category";
-import { Modal} from "boostrap";
+// import { Modal} from "boostrap";
 import _ from "lodash";
 import { useRoute } from "vue-router";
 
@@ -15,6 +15,13 @@ const productStore = useProductStore();
 const router = useRoute();
 const swal = inject("$swal");
 
+const cartFormData = reactive({
+    product_id: '',
+    product_name: '',
+    qty: 1,
+    price: 0,
+    subtotal: 0,
+});
 const searchKeyword = ref("");
 
 const filterFormData = reactive({
@@ -22,11 +29,28 @@ const filterFormData = reactive({
   brand_id: "",
 });
 
+const openCartModal = (product) => {
+  productStore.product = product;
+  console.log(product);
+
+  cartModalObj.show();
+
+    cartFormData.product_id = product.id;
+    cartFormData.product_name = product.name;
+    cartFormData.price = product.sell_price;
+    cartFormData.subtotal = product.sell_price* cartFormData.qty
+};
+
+const increaseQty = () => {
+    cartFormData.subtotal = cartFormData.price * cartFormData.qty;
+}
+
 let cartModal = ref(null);
 let cartModalObj = null;
 
 onMounted(() => {
-  cartModalObj = new modal
+  //   cartModalObj = new Modal(cartModal.value)
+  cartModalObj = new bootstrap.Modal(cartModal.value);
   categoryStore.getAllCategories();
   brandStore.getAllBrands();
   productStore.getProducts(1, productStore.dataLimit);
@@ -113,67 +137,118 @@ watch(
           </div>
         </div>
         <div class="row">
-  <div
-    class="col-md-4"
-    v-for="(product, index) in productStore.products"
-    :key="product.id"
-  >
-    <div class="card">
-      <div class="card-content">
-        <img
-          :src="product.file"
-          alt="Product Image"
-          class="card-img-top img-fluid product-image"
-        />
-        <div class="card-body text-center">
-          <h4 class="card-title">{{ product.name }}</h4>
-          <span
-            class="badge"
-            :class="{
-              'bg-success': product.stock > 0,
-              'bg-danger': product.stock <= 0,
-            }"
+          <div
+            class="col-md-4"
+            v-for="(product, index) in productStore.products"
+            :key="product.id"
           >
-            {{ product.stock > 0 ? 'Available' : 'Out of Stock' }}: {{ product.stock }}
-          </span>
+            <a
+              href=""
+              class="btn btn-sm"
+              @click.prevent="openCartModal(product)"
+            >
+              <div class="card">
+                <div class="card-content">
+                  <img
+                    :src="product.file"
+                    alt=""
+                    class="card-img-top img-fluid"
+                    style="width: 50%; height: 50%"
+                  />
+                  <div class="card-body text-center">
+                    <h4 class="card-title">{{ product.name }}</h4>
+                    <span
+                      class="badge"
+                      :class="product.stock > 0 ? 'bg-success' : 'bg-danger'"
+                    >
+                      <span v-if="product.stock > 0">Available</span>
+                      <span v-else>Out of Stock</span>
+                      : {{ product.stock }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
-      <button
-        class="btn btn-sm btn-primary"
-        @click.prevent="openCartModal(product)"
-      >
-        Add to Cart
-      </button>
     </div>
   </div>
-</div>
 
-      </div>
-    </div>
-  </div>
-  <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToCartModal">
-  Launch demo modal
-</button>
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="addToCartModal"
+    tabindex="-1"
+    aria-labelledby="addToCartModalLabel"
+    aria-hidden="true"
+    ref="cartModal"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addToCartModalLabel">{{ productStore.product?.name }}</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img :src="productStore.product?.file" alt="" class="card-img-top img-fluid">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row py-1">
+                            <div class="col-md-6">
+                                <label for="sell_price" class="form-label">Sell Price: (BDT)</label>
+                                <input type="number" disabled class="form-control" :value="productStore.product?.sell_price" name="sell_price">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="original_price" class="form-label">Original Price: (BDT)</label>
+                                <input type="number" disabled class="form-control" :value="productStore.product?.original_price" name="original_price">
+                            </div>
+                        </div>
+                        <div class="row py-1">
+                            <div class="col-md-6">
+                                <label for="sell_price" class="form-label">Purchase Qty: </label>
+                                <input type="number" class="form-control" v-model="cartFormData.qty" min="0"
+                                name="qty" @change="increaseQty()">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="stock" class="form-label">Stock: </label>
+                                <input type="number" disabled class="form-control" :value="productStore.product?.stock" name="stock">
+                            </div>
+                        </div>
 
-<!-- Modal -->
-<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true" ref="cartModal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addToCartModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+                        <div class="row py-1">
+                            <div class="col-md-6">
+                                <p class="form-label text-primary">BarCode</p>
+                                <img :src="productStore.product?.barcode" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-md-6">
+                                <p class="form-label text-primary">Subtotal</p>
+                                <input type="number" disabled class="form-control" :value="cartFormData.subtotal" name="subtotal">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
