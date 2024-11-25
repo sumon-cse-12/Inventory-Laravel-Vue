@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\SalaryController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -50,3 +52,9 @@ Route::get('/all-expenses-category', [ExpenseController::class, 'allExpenseCateg
 Route::apiResource('/expenses', ExpenseController::class)->except(['destroy']);
 
 Route::apiResource('/salaries', SalaryController::class);
+
+Route::get('/carts', [CartController::class, 'getCartItems']);
+Route::post('/add-to-cart', [CartController::class, 'addToCart']);
+Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart']);
+Route::get('/increase-item-qty/{id}', [CartController::class, 'incItemQty']);
+Route::get('/decrease-item-qty/{id}', [CartController::class, 'decItemQty']);

@@ -4,16 +4,23 @@ import { ref, reactive, onMounted, inject, watch } from "vue";
 import { useBrandStore } from "../../store/brand";
 import { useProductStore } from "../../store/product";
 import { useCategoryStore } from "../../store/category";
+import { useCartStore } from "../../store/cart";
+import { useCustomerStore } from "../../store/customer";
 // import { Modal} from "boostrap";
 import _ from "lodash";
-import { useRoute } from "vue-router";
+import { useRoute,useRouter } from "vue-router";
 
 const brandStore = useBrandStore();
 const categoryStore = useCategoryStore();
 const productStore = useProductStore();
+const cartStore = useCartStore();
+const customerStore = useCustomerStore();
 
-const router = useRoute();
-const swal = inject("$swal");
+const router = useRouter();
+const swal = inject('$swal');
+
+cartStore.swal =swal;
+cartStore.router =router;
 
 const cartFormData = reactive({
     product_id: '',
@@ -41,6 +48,19 @@ const openCartModal = (product) => {
     cartFormData.subtotal = product.sell_price* cartFormData.qty
 };
 
+const resetOrderFormData = () => {
+    orderFormData.customer_mobile = null;
+    orderFormData.customer_name = null;
+    orderFormData.transaction_number = null;
+    orderFormData.discount = 0;
+    orderFormData.pay_amount = 0;
+    orderFormData.due_amount = 0;
+    orderFormData.subtotal = 0;
+    orderFormData.total = 0;
+    orderFormData.total = 0;
+    orderFormData.payment_method = 'cash';
+}
+
 const increaseQty = () => {
     cartFormData.subtotal = cartFormData.price * cartFormData.qty;
 }
@@ -54,6 +74,8 @@ onMounted(() => {
   categoryStore.getAllCategories();
   brandStore.getAllBrands();
   productStore.getProducts(1, productStore.dataLimit);
+  customerStore.getAllCustomers();
+  cartStore.getCartItems();
 });
 
 watch(
