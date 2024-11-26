@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\ExpenseController;
@@ -58,3 +59,6 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart']);
 Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart']);
 Route::get('/increase-item-qty/{id}', [CartController::class, 'incItemQty']);
 Route::get('/decrease-item-qty/{id}', [CartController::class, 'decItemQty']);
+
+Route::get('/all-orders', [OrderController::class, 'allOrders']);
+Route::apiResource('/orders', OrderController::class)->only(['index', 'store', 'show']);
