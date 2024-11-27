@@ -6,8 +6,10 @@ use Illuminate\Support\ServiceProvider;
 use App\Repositories\Cart\CartInterface;
 use App\Repositories\Cart\CartRepository;
 use App\Repositories\Brand\BrandInterface;
+use App\Repositories\Order\OrderInterface;
 use App\Repositories\Staff\StaffInterface;
 use App\Repositories\Brand\BrandRepository;
+use App\Repositories\Order\OrderRepository;
 use App\Repositories\Staff\StaffRepository;
 use App\Repositories\Salary\SalaryInterface;
 use App\Repositories\Salary\SalaryRepository;
@@ -38,6 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ExpenseInterface::class, ExpenseRepository::class);
         $this->app->bind(SalaryInterface::class, SalaryRepository::class);
         $this->app->bind(CartInterface::class, CartRepository::class);
+        $this->app->bind(OrderInterface::class, OrderRepository::class);
     }
 
     /**
