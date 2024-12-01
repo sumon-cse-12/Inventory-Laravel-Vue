@@ -121,25 +121,36 @@ watch(
                 </thead>
 
                 <tbody>
-                    <tr v-for="(cart,index) in cartStore.carts" :key="cart.id">
-                                                    <th scope="row">{{ index+1 }}</th>
-                                                    <td>{{ cart.product?.name }}</td>
-                                                    <td>{{ cart.product?.code }}</td>
-                                                    <td>{{ cart.product?.sell_price }}</td>
-                                                    <td style="width: 120px;">
-                                                        <span class="btn btn-sm btn-danger fw-bold">
-                                                            <i class="fas fa-minus" @click.prevent="cartStore.decreaseItemQty(cart.id)"></i>
-                                                        </span>
-                                                        {{ cart.qty }}
-                                                        <span class="btn btn-sm btn-success fw-bold">
-                                                            <i class="fas fa-plus" @click.prevent="cartStore.increaseItemQty(cart.id)"></i>
-                                                        </span>
-                                                    </td>
-                                                    <td>{{ cart.subtotal }}</td>
-                                                    <td>
-                                                        <a href="" class="btn btn-sm" @click.prevent="DeleteFromCart(cart.id)"><i class="fas fa-trash text-danger"></i></a>
-                                                    </td>
-                                                </tr>
+                  <tr v-for="(cart, index) in cartStore.carts" :key="cart.id">
+                    <th scope="row">{{ index + 1 }}</th>
+                    <td>{{ cart.product?.name }}</td>
+                    <td>{{ cart.product?.code }}</td>
+                    <td>{{ cart.product?.sell_price }}</td>
+                    <td style="width: 120px">
+                      <span class="btn btn-sm btn-danger fw-bold">
+                        <i
+                          class="fas fa-minus"
+                          @click.prevent="cartStore.decreaseItemQty(cart.id)"
+                        ></i>
+                      </span>
+                      {{ cart.qty }}
+                      <span class="btn btn-sm btn-success fw-bold">
+                        <i
+                          class="fas fa-plus"
+                          @click.prevent="cartStore.increaseItemQty(cart.id)"
+                        ></i>
+                      </span>
+                    </td>
+                    <td>{{ cart.subtotal }}</td>
+                    <td>
+                      <a
+                        href=""
+                        class="btn btn-sm"
+                        @click.prevent="DeleteFromCart(cart.id)"
+                        ><i class="fas fa-trash text-danger"></i
+                      ></a>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -251,135 +262,133 @@ watch(
 
   <!-- Modal -->
   <div
-    class="modal fade"
-    id="addToCartModal"
-    tabindex="-1"
-    aria-labelledby="addToCartModalLabel"
-    aria-hidden="true"
-    ref="cartModal"
-  >
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addToCartModalLabel">
-            {{ productStore.product?.name }}
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="card">
-            <div class="card-content">
-              <div class="row">
-                <div class="col-md-4">
-                  <img
-                    :src="productStore.product?.file"
-                    alt=""
-                    class="card-img-top img-fluid"
-                  />
+  class="modal fade"
+  id="addToCartModal"
+  tabindex="-1"
+  aria-labelledby="addToCartModalLabel"
+  aria-hidden="true"
+  ref="cartModal"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 v-if="productStore.product" class="modal-title" id="addToCartModalLabel">
+          {{ productStore.product.name }}
+        </h5>
+        <h5 v-else class="modal-title text-danger">
+          Product details not available.
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-content">
+            <div class="row">
+              <div class="col-md-4">
+                <img
+                  :src="productStore.product?.file"
+                  alt=""
+                  class="card-img-top img-fluid"
+                />
+              </div>
+              <div class="col-md-8">
+                <div class="row py-1">
+                  <div class="col-md-6">
+                    <label for="sell_price" class="form-label">Sell Price: (BDT)</label>
+                    <input
+                      type="number"
+                      disabled
+                      class="form-control"
+                      :value="productStore.product?.sell_price"
+                      name="sell_price"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="original_price" class="form-label">Original Price: (BDT)</label>
+                    <input
+                      type="number"
+                      disabled
+                      class="form-control"
+                      :value="productStore.product?.original_price"
+                      name="original_price"
+                    />
+                  </div>
                 </div>
-                <div class="col-md-8">
-                  <div class="row py-1">
-                    <div class="col-md-6">
-                      <label for="sell_price" class="form-label"
-                        >Sell Price: (BDT)</label
-                      >
-                      <input
-                        type="number"
-                        disabled
-                        class="form-control"
-                        :value="productStore.product?.sell_price"
-                        name="sell_price"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label for="original_price" class="form-label"
-                        >Original Price: (BDT)</label
-                      >
-                      <input
-                        type="number"
-                        disabled
-                        class="form-control"
-                        :value="productStore.product?.original_price"
-                        name="original_price"
-                      />
-                    </div>
+                <div class="row py-1">
+                  <div class="col-md-6">
+                    <label for="qty" class="form-label">Purchase Qty:</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      v-model="cartFormData.qty"
+                      :max="productStore.product?.stock"
+                      min="0"
+                      name="qty"
+                      @change="increaseQty()"
+                    />
                   </div>
-                  <div class="row py-1">
-                    <div class="col-md-6">
-                      <label for="sell_price" class="form-label"
-                        >Purchase Qty:
-                      </label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        v-model="cartFormData.qty"
-                        min="0"
-                        name="qty"
-                        @change="increaseQty()"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label for="stock" class="form-label">Stock: </label>
-                      <input
-                        type="number"
-                        disabled
-                        class="form-control"
-                        :value="productStore.product?.stock"
-                        name="stock"
-                      />
-                    </div>
+                  <div class="col-md-6">
+                    <label for="stock" class="form-label">Stock: </label>
+                    <input
+                      type="number"
+                      disabled
+                      class="form-control"
+                      :value="productStore.product?.stock"
+                      name="stock"
+                    />
                   </div>
-
-                  <div class="row py-1">
-                    <div class="col-md-6">
-                      <p class="form-label text-primary">BarCode</p>
-                      <img
-                        :src="productStore.product?.barcode"
-                        alt=""
-                        class="img-fluid"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <p class="form-label text-primary">Subtotal</p>
-                      <input
-                        type="number"
-                        disabled
-                        class="form-control"
-                        :value="cartFormData.subtotal"
-                        name="subtotal"
-                      />
-                    </div>
+                </div>
+                <div class="row py-1">
+                  <div class="col-md-6">
+                    <p class="form-label text-primary">BarCode</p>
+                    <img
+                      :src="productStore.product?.barcode"
+                      alt=""
+                      class="img-fluid"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <p class="form-label text-primary">Subtotal</p>
+                    <input
+                      type="number"
+                      disabled
+                      class="form-control"
+                      :value="cartFormData.subtotal"
+                      name="subtotal"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click.prevent="AddToCart(cartFormData)"
-            :disabled="productStore.product?.stock == 0"
-          >
-            Add To Cart
-          </button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click.prevent="AddToCart(cartFormData)"
+          :disabled="productStore.product?.stock == 0"
+        >
+          Add To Cart
+        </button>
       </div>
     </div>
   </div>
+</div>
+
 </template>

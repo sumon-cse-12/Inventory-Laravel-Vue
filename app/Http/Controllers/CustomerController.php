@@ -23,7 +23,7 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function allCustomer()
+    public function allCustomers()
     {
         $data = $this->customerRepository->all();
         $metadata['count'] = count($data);

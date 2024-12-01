@@ -58,7 +58,6 @@ export const useCustomerStore = defineStore('customer', {
                         search: search,
                     }
                 });
-                console.log(data);
                 this.rawData = data.data;
                 this.customers = data.data.data;
                 this.pagination.current_page = data.data.current_page;

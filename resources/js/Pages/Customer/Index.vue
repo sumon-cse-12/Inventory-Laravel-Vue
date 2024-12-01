@@ -30,8 +30,6 @@ const DeleteCustomer = (id, name) => {
   });
 };
 onMounted(() => {
-    console.log(customerStore.customers,'ppp');
-
   customerStore.getCustomers(
     customerStore.pagination.current_page,
     customerStore.dataLimit
