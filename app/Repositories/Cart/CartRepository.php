@@ -73,10 +73,13 @@ class CartRepository implements CartInterface
     public function incItemQty($id)
     {
         $data = Cart::findOrFail($id);
+        // dd( $data);
         $data->increment('qty');
+
         $data->update([
             'subtotal' => $data->qty*$data->price
         ]);
+        //dd( $data);
         return $data;
     }
 

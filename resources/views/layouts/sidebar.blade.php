@@ -104,6 +104,14 @@
                 </router-link>
             </li>
             <li class="nav-item">
+                <router-link :to="{name:'order-index'}" active-class="active" class="nav-link">
+                    <i class="nav-icon fa fa-list"></i>
+                    <p>
+                    Orders
+                    </p>
+                </router-link>
+            </li>
+            <li class="nav-item">
                 <router-link  to="/admin/settings" active-class="active" class="nav-link">
                     <i class="nav-icon fas fa-cog"></i>
                     <p>

@@ -47,6 +47,8 @@ const router = createRouter({
         {path: 'admin/salary/index', name:'salary-index', component: () => import('../Pages/Salary/Index.vue')},
         {path: 'admin/salary/create', name:'salary-create', component: () => import('../Pages/Salary/Create.vue')},
         {path: 'admin/salary/edit/:id', name:'salary-edit', component: () => import('../Pages/Salary/Edit.vue')},
+
+        {path: 'admin/order/index', name:'order-index', component: () => import('../Pages/Order/Index.vue')},
       ]
     },
     // {

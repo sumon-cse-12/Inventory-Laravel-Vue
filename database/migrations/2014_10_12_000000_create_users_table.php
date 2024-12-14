@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('role_id')->default(2);
             $table->string('name');
             $table->string('phone')->unique();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('nid')->nullable()->unique();
             $table->longText('address')->nullable();
             $table->string('company_name')->nullable();

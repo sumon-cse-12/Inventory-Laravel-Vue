@@ -19,6 +19,7 @@ class OrderRepository implements OrderInterface
 
     public function store($request_data)
     {
+        // dd($request_data);
 
         // Check Customer Already exists
         $customer_mobile = $request_data->customer_mobile;
@@ -33,6 +34,8 @@ class OrderRepository implements OrderInterface
                 'password' => Hash::make(1234)
             ]);
         }
+
+
 
         $data = Order::create([
             'customer_id' => $customer->id,
