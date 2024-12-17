@@ -29,6 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/dashboard-info', [DashboardController::class, 'index']);
+Route::get('/get-notifications', [DashboardController::class, 'getNotifications']);
+Route::get('/mark-as-readall', [DashboardController::class, 'markAsReadAll']);
+
 Route::get('/all-categories', [CategoryController::class, 'allCategories']);
 Route::get('/categories/status/{id}', [CategoryController::class, 'status']);
 Route::apiResource('categories', CategoryController::class);
